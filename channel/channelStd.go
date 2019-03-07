@@ -114,6 +114,7 @@ func testChannelTimeout() {
 }
  
 func main() {
+	
 	testChannel()
 	testChannelBuf()
 	testChannelSync()
