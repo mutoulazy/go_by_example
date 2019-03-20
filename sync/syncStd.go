@@ -9,6 +9,10 @@ import (
 	"time"
 )
 
+func channelSync() {
+	
+}
+
 //  原子互斥锁
 func main() {
 	var state = make(map[int]int)
