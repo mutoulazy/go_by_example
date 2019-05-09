@@ -1,5 +1,5 @@
 package balance
 
 type Balancer interface {
-	DoBalance([]*Instance) (*Instance, error)
+	DoBalance([]*Instance, ...string) (*Instance, error)
 }
