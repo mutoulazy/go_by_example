@@ -8,11 +8,11 @@ import (
 type User struct {
 	UserName string `json:"username"`
 	NickName string `json:"nickname"`
-	Age      int
-	Birthday string
-	Sex      string
-	Email    string
-	Phone    string
+	Age      int `json:"age"`
+	Birthday string `json:"birthday"`
+	Sex      string `json:"sex"`
+	Email    string `json:"email"`
+	Phone    string `json:"phone"`
 }
 
 func testMarshal() (ret string, err error) {
@@ -54,6 +54,6 @@ func testUnMarshal() {
 }
 
 func main()  {
-	// testMarshal()
-	testUnMarshal()
+	testMarshal()
+	// testUnMarshal()
 }
