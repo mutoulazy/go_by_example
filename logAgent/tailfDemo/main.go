@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	filename := "./my.log"
+	filename := "‪D:\\tools\\logs\\mylog.log"
 	tails, err := tail.TailFile(filename, tail.Config{
 		ReOpen:    true,
 		Follow:    true,
@@ -26,7 +26,7 @@ func main() {
 		msg, ok = <-tails.Lines
 		if !ok {
 			fmt.Printf("tail file close reopen, filename:%s\n", tails.Filename)
-			time.Sleep(100 * time.Millisecond)
+			time.Sleep(1000 * time.Millisecond)
 			continue
 		}
 		fmt.Println("msg:", msg)
