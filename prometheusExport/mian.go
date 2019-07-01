@@ -91,9 +91,9 @@ func main() {
 	reg.MustRegister(workDC)
 
 	gatherers := prometheus.Gatherers{
-        prometheus.DefaultGatherer,
-        reg,
-    }
+		prometheus.DefaultGatherer,
+		reg,
+	}
 
 	h := promhttp.HandlerFor(gatherers, promhttp.HandlerOpts{
 		ErrorLog:      log.NewErrorLogger(),
