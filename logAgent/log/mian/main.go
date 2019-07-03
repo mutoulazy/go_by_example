@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/astaxie/beego/logs"
 	"fmt"
+	"../tailf"
 )
 
 func main() {
@@ -23,5 +24,22 @@ func main() {
 		return
 	}
 
+	logs.Debug("load config success, conf: %v", appConfig)
 	logs.Debug("init success")
+
+	// 初始化tailf
+	err = tailf.InitTailf(appConfig.collectConfs)
+	if err != nil {
+		logs.Warn("init tailf faild, err: %v", err)
+		panic("init tailf faild")
+		return
+	}
+
+	// 运行服务
+	err = runServer()
+	if err != nil {
+		logs.Warn("run server faild, err: %v", err)
+		panic("run server faild")
+		return
+	}
 }

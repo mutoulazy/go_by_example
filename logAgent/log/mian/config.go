@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/astaxie/beego/config"
+	"../tailf"
 )
 
 var (
@@ -13,12 +14,7 @@ var (
 type Config struct {
 	logLevel string
 	logPath string
-	collectConfs []CollectConf
-}
-
-type CollectConf struct {
-	logPath string
-	topic string
+	collectConfs []tailf.CollectConf
 }
 
 func  loadConfig(confTyep string, filename string) (err error) {
@@ -47,17 +43,17 @@ func  loadConfig(confTyep string, filename string) (err error) {
 }
 
 func  loadCollectConfig(conf config.Configer) (err error) {
-	var collectConf CollectConf
-	collectConf.logPath = conf.String("collect::log_path")
-	if len(collectConf.logPath) == 0 {
+	var collectConf tailf.CollectConf
+	collectConf.LogPath = conf.String("collect::log_path")
+	if len(collectConf.LogPath) == 0 {
 		err = errors.New("load collect::log_path err")
-		collectConf.logPath = "D:\\tools\\logs\\nginx\\test1.log"
+		collectConf.LogPath = "D:\\tools\\logs\\nginx\\test1.log"
 		return
 	}
-	collectConf.topic = conf.String("collect::topic")
-	if len(collectConf.topic) == 0 {
+	collectConf.Topic = conf.String("collect::topic")
+	if len(collectConf.Topic) == 0 {
 		err = errors.New("load collect::topic err")
-		collectConf.topic = "nginx_log"
+		collectConf.Topic = "nginx_log"
 		return
 	}
 	appConfig.collectConfs = append(appConfig.collectConfs, collectConf)
