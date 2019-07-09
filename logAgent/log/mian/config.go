@@ -14,6 +14,7 @@ var (
 type Config struct {
 	logLevel string
 	logPath string
+	chanSize int 
 	collectConfs []tailf.CollectConf
 }
 
@@ -31,6 +32,10 @@ func  loadConfig(confTyep string, filename string) (err error) {
 	appConfig.logPath = conf.String("logs::log_path")
 	if len(appConfig.logPath) == 0 {
 		appConfig.logPath = "D:\\tools\\logs\\logcollect.conf"
+	}
+	appConfig.chanSize,err = conf.Int("logs::chan_size")
+	if err != nil {
+		appConfig.chanSize = 100
 	}
 
 	err = loadCollectConfig(conf)

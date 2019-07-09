@@ -28,7 +28,7 @@ func main() {
 	logs.Debug("init success")
 
 	// 初始化tailf
-	err = tailf.InitTailf(appConfig.collectConfs)
+	err = tailf.InitTailf(appConfig.collectConfs, appConfig.chanSize)
 	if err != nil {
 		logs.Warn("init tailf faild, err: %v", err)
 		panic("init tailf faild")

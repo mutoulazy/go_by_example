@@ -2,6 +2,7 @@ package tailf
 
 import (
 	"errors"
+	"time"
 	"github.com/astaxie/beego/logs"
 	"github.com/hpcloud/tail"
 )
@@ -16,18 +17,28 @@ type TailfObj struct {
 	collectConf CollectConf
 }
 
+type TextMsg struct {
+	Msg string
+	Topic string
+}
+
 type TiilfObjMgr struct {
-	tailfs []*TailfObj
+	tailfObjs []*TailfObj
+	msgChan chan *TextMsg
 }
 
 var (
 	tiilfObjMgr *TiilfObjMgr
 )
 
-func InitTailf(collectConfs []CollectConf) (err error) {
+func InitTailf(collectConfs []CollectConf, chanSize int) (err error) {
 	if len(collectConfs) == 0 {
 		err = errors.New("collectConfs len err")
 		return
+	}
+
+	tiilfObjMgr = &TiilfObjMgr{
+		msgChan: make(chan *TextMsg, chanSize),
 	}
 
 	for _, v := range collectConfs {
@@ -49,8 +60,27 @@ func InitTailf(collectConfs []CollectConf) (err error) {
 		}
 		// tailfObj.tail = tails
 
-		tiilfObjMgr.tailfs = append(tiilfObjMgr.tailfs, tailfObj)
+		tiilfObjMgr.tailfObjs = append(tiilfObjMgr.tailfObjs, tailfObj)
+
+		go readFileTail(tailfObj)
 	}
 
 	return
+}
+
+func readFileTail(tailObj *TailfObj) {
+	for true {
+		line, ok := <-tailObj.tail.Lines
+		if !ok {
+			logs.Warn("tail file close reopen, filename:%s\n", tailObj.tail.Filename)
+			time.Sleep(100 * time.Millisecond)
+			continue
+		}
+		textMsg := &TextMsg{
+			Msg: line.Text,
+			Topic: tailObj.collectConf.Topic,
+		}
+
+		tiilfObjMgr.msgChan <- textMsg
+	}
 }
