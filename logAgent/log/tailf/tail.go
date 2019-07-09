@@ -22,13 +22,13 @@ type TextMsg struct {
 	Topic string
 }
 
-type TiilfObjMgr struct {
+type TailfObjMgr struct {
 	tailfObjs []*TailfObj
 	msgChan chan *TextMsg
 }
 
 var (
-	tiilfObjMgr *TiilfObjMgr
+	tailfObjMgr *TailfObjMgr
 )
 
 func InitTailf(collectConfs []CollectConf, chanSize int) (err error) {
@@ -37,7 +37,7 @@ func InitTailf(collectConfs []CollectConf, chanSize int) (err error) {
 		return
 	}
 
-	tiilfObjMgr = &TiilfObjMgr{
+	tailfObjMgr = &TailfObjMgr{
 		msgChan: make(chan *TextMsg, chanSize),
 	}
 
@@ -60,7 +60,7 @@ func InitTailf(collectConfs []CollectConf, chanSize int) (err error) {
 		}
 		// tailfObj.tail = tails
 
-		tiilfObjMgr.tailfObjs = append(tiilfObjMgr.tailfObjs, tailfObj)
+		tailfObjMgr.tailfObjs = append(tailfObjMgr.tailfObjs, tailfObj)
 
 		go readFileTail(tailfObj)
 	}
@@ -68,6 +68,7 @@ func InitTailf(collectConfs []CollectConf, chanSize int) (err error) {
 	return
 }
 
+// 读取日志文件 把对应的数据输入到管道中
 func readFileTail(tailObj *TailfObj) {
 	for true {
 		line, ok := <-tailObj.tail.Lines
@@ -81,6 +82,12 @@ func readFileTail(tailObj *TailfObj) {
 			Topic: tailObj.collectConf.Topic,
 		}
 
-		tiilfObjMgr.msgChan <- textMsg
+		tailfObjMgr.msgChan <- textMsg
 	}
+}
+
+// 从管道中获取一条数据
+func GetOneLine() (msg *TextMsg) {
+	msg = <- tailfObjMgr.msgChan
+	return
 }

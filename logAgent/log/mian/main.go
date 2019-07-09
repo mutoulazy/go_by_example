@@ -4,8 +4,14 @@ import (
 	"github.com/astaxie/beego/logs"
 	"fmt"
 	"../tailf"
+	"../kafka"
 )
 
+/**
+启动zookeeper 		bin/zkServer.cmd
+启动kafka	  		./bin/windows/kafka-server-start.bat ./config/server.preperties
+启动kafkaClient		kafka-console-consumer.bat  --bootstrap-server localhost:9092 --topic nginx_log --from-beginning
+*/
 func main() {
 	// 读取化配置文件
 	filename := "D:\\tools\\logs\\logcollect.conf"
@@ -32,6 +38,14 @@ func main() {
 	if err != nil {
 		logs.Warn("init tailf faild, err: %v", err)
 		panic("init tailf faild")
+		return
+	}
+
+	// 初始化kafka
+	err = kafka.InitKafka(appConfig.kafkaAddr)
+	if err != nil {
+		logs.Warn("init kafka faild, err: %v", err)
+		panic("init kafka faild")
 		return
 	}
 
