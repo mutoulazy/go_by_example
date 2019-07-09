@@ -11,6 +11,19 @@ import (
 启动zookeeper 		bin/zkServer.cmd
 启动kafka	  		./bin/windows/kafka-server-start.bat ./config/server.preperties
 启动kafkaClient		kafka-console-consumer.bat  --bootstrap-server localhost:9092 --topic nginx_log --from-beginning
+
+配置文件内容
+[logs]
+log_level=debug
+log_path=D:\\tools\\logs\\mylog.log
+chan_size=100
+
+[collect]
+topic=nginx_log
+log_path=D:\\tools\\logs\\nginx\\test1.log
+
+[kafka]
+kafka_addr=192.168.43.133:9092
 */
 func main() {
 	// 读取化配置文件
