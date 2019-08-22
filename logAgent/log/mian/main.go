@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/astaxie/beego/logs"
-	"fmt"
-	"../tailf"
 	"../kafka"
+	"../tailf"
+	"fmt"
+	"github.com/astaxie/beego/logs"
 )
 
 /**

@@ -13,7 +13,8 @@ import (
 func main() {
 	// 配置 k8s 集群外 kubeconfig 配置文件
 	var kubeconfig *string
-	kubeconfig = flag.String("kubeconfig", "./config/admin.conf", "absolute path to the kubeconfig file")
+	kubeconfig = flag.String("kubeconfig", "D:\\project\\goProject\\src\\go_by_example\\k8sDemo\\config\\admin.conf",
+		"absolute path to the kubeconfig file")
 	flag.Parse()
 
 	//在 kubeconfig 中使用当前上下文环境，config 获取支持 url 和 path 方式
