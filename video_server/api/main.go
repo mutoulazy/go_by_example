@@ -1,8 +1,9 @@
 package main
 
 import (
-	"net/http"
+	"github.com/astaxie/beego/logs"
 	"github.com/julienschmidt/httprouter"
+	"net/http"
 )
 
 func RegisterHandlers() *httprouter.Router {
@@ -14,5 +15,6 @@ func RegisterHandlers() *httprouter.Router {
 
 func main() {
 	r := RegisterHandlers()
+	logs.Debug("启动服务...")
 	http.ListenAndServe(":8080", r)
 }
