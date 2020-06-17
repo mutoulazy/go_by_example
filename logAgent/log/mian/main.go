@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/astaxie/beego/logs"
-	"fmt"
-	"../tailf"
 	"../kafka"
+	"../tailf"
+	"fmt"
+	"github.com/astaxie/beego/logs"
 )
 
 /**
@@ -26,7 +26,7 @@ log_path=D:\\tools\\logs\\nginx\\test1.log
 kafka_addr=192.168.43.133:9092
 */
 func main() {
-	// 读取化配置文件
+	// 读取化配置文件 
 	filename := "D:\\tools\\logs\\logcollect.conf"
 	err := loadConfig("ini", filename)
 	if err != nil {
@@ -55,7 +55,7 @@ func main() {
 	}
 
 	// 初始化kafka
-	err = kafka.InitKafka(appConfig.kafkaAddr)
+	err = kafka.InitKafka(appConfig.kafkaAddr) 
 	if err != nil {
 		logs.Warn("init kafka faild, err: %v", err)
 		panic("init kafka faild")

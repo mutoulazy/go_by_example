@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego/logs"
-)
+) 
 
 func main() {
 	config := make(map[string]interface{})
